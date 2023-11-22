@@ -1,6 +1,6 @@
 use std::io;
 
-fn get_num_from_user(prompt: &str) -> u8 {
+fn get_num_from_user(prompt: &str) -> u16 {
     let mut num_placeholder = String::new();
 
     println!("{}", prompt);
@@ -8,20 +8,20 @@ fn get_num_from_user(prompt: &str) -> u8 {
         .read_line(&mut num_placeholder)
         .expect("Couldn't readline");
 
-    let num_placeholder: u8 = match num_placeholder.trim().parse() {
+    let num_placeholder: u16 = match num_placeholder.trim().parse() {
         Ok(num) => num,
-        Err(_) => u8::MAX,
+        Err(_) => u8::MAX.into(),
     };
 
     num_placeholder
 }
 
 fn main() {
-    const MAX_INPUT: u8 = 20;
-    let mut fib_series: Vec<u8> = vec![];
-    let _no_of_terms = loop {
+    const MAX_INPUT: u16 = 20;
+    let mut fib_series: Vec<u16> = Vec::new();
+    let no_of_terms = loop {
         let terms = get_num_from_user("No of terms: ");
-        if terms != u8::MAX {
+        if terms != u8::MAX.into() {
             break terms;
         }
     };
@@ -29,7 +29,7 @@ fn main() {
     let first_num = loop {
         let num = get_num_from_user("Enter first term (only nums from 1 to 20 are allowed): ");
 
-        if num > u8::MIN && num <= MAX_INPUT {
+        if num > u8::MIN.into() && num <= MAX_INPUT {
             break num;
         }
     };
@@ -38,5 +38,12 @@ fn main() {
     fib_series.push(1);
     fib_series.push(first_num);
 
-    println!("Capacity: {}", fib_series.capacity());
+    
+    while fib_series.len() != no_of_terms.into() {        
+        let last_term = fib_series[fib_series.len() - 1];
+        let pen_ultimate_term = fib_series[fib_series.len() - 2];
+        let next_term = last_term + pen_ultimate_term;
+        fib_series.push(next_term);
+    }
+    println!("Series: {:#?}", fib_series)    
 }
