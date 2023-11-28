@@ -38,12 +38,11 @@ fn main() {
     fib_series.push(1);
     fib_series.push(first_num);
 
-    
-    while fib_series.len() != no_of_terms.into() {        
+    while fib_series.len() != no_of_terms.into() {
         let last_term = fib_series[fib_series.len() - 1];
         let pen_ultimate_term = fib_series[fib_series.len() - 2];
         let next_term = last_term + pen_ultimate_term;
         fib_series.push(next_term);
     }
-    println!("Series: {:#?}", fib_series)    
+    println!("Series: {:#?}", fib_series)
 }
